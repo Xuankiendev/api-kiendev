@@ -16,6 +16,12 @@
         .container {
             max-width: 1000px;
             margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         h1 {
             font-size: 1.5rem;
@@ -23,21 +29,18 @@
             color: #1a3c87;
             margin-bottom: 0.25rem;
         }
-        .added-by {
+        .telegram, .api-key {
             font-size: 0.875rem;
             color: #666;
             margin-bottom: 0.25rem;
         }
-        .messenger {
-            font-size: 0.875rem;
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-        .messenger a {
+        .telegram a {
             color: #1a73e8;
             text-decoration: none;
+            transition: color 0.2s ease;
         }
-        .messenger a:hover {
+        .telegram a:hover {
+            color: #1557b0;
             text-decoration: underline;
         }
         .category {
@@ -56,6 +59,10 @@
             border-radius: 0.5rem;
             overflow: hidden;
             margin-bottom: 1rem;
+            transition: box-shadow 0.3s ease;
+        }
+        table:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         th, td {
             padding: 0.75rem;
@@ -72,6 +79,12 @@
         td {
             color: #333;
         }
+        tr {
+            transition: background 0.2s ease;
+        }
+        tr:hover {
+            background: #f8fafc;
+        }
         .status {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -81,6 +94,11 @@
             font-size: 0.75rem;
             font-weight: 500;
             text-align: center;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         .get-btn {
             background: #1a73e8;
@@ -90,10 +108,21 @@
             font-size: 0.75rem;
             font-weight: 500;
             text-decoration: none;
-            transition: background 0.2s ease;
+            transition: all 0.2s ease;
+            display: inline-block;
         }
         .get-btn:hover {
             background: #1557b0;
+            transform: scale(1.05);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        .api-key .key-text {
+            filter: blur(4px);
+            cursor: pointer;
+            transition: filter 0.3s ease;
+        }
+        .api-key .key-text.revealed {
+            filter: blur(0);
         }
     </style>
 </head>
@@ -101,7 +130,7 @@
     <div class="container">
         <h1>API Documentation</h1>
         <div class="telegram">Telegram: <a href="https://t.me/deptraiaiyeu" target="_blank">Vũ Xuân Kiên</a></div>
-        <div class="api-key">Free ApiKey: xuankien1212</div>
+        <div class="api-key">Free ApiKey: <span class="key-text" onclick="this.classList.toggle('revealed')">xuankien1212</span></div>
 
         <div class="category">API List</div>
         <table>
