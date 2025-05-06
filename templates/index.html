@@ -4,48 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
+            background-color: #f0f4f8;
+            font-family: 'Inter', sans-serif;
             color: #333;
+            margin: 0;
+            padding: 1rem;
         }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-            max-width: 600px;
+        .container {
+            max-width: 1000px;
             margin: 0 auto;
         }
-        li {
-            background: #fff;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a3c87;
+            margin-bottom: 0.25rem;
         }
-        a {
-            color: #3498db;
+        .added-by {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+        .messenger {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .messenger a {
+            color: #1a73e8;
             text-decoration: none;
         }
-        a:hover {
+        .messenger a:hover {
             text-decoration: underline;
+        }
+        .category {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a3c87;
+            margin: 1.5rem 0 0.75rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0.25rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 0.875rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #f5f7fa;
+            color: #666;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        td {
+            color: #333;
+        }
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e0f0ff;
+            color: #1a73e8;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        .get-btn {
+            background: #1a73e8;
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+        .get-btn:hover {
+            background: #1557b0;
         }
     </style>
 </head>
 <body>
-    <h1>API Documentation</h1>
-    <ul>
-        <li><strong>/check_ban</strong>: Check Ban Account Free Fire</li>
-        <li><strong>/zingmp3_search</strong>: Search Music From ZingMP3</li>
-        <li><strong>/zingmp3_download</strong>: Download Music From ZingMP3</li>
-        <li><strong>Free ApiKey</strong>: xuankien1212</li>
-        <li>Group Telegram Support & Update ApiKey Free: <a href="https://t.me/deptraiaiyeu">@deptraiaiyeu</a></li>
-    </ul>
+    <div class="container">
+        <h1>API Documentation</h1>
+        <div class="added-by">Api By Vũ Xuân Kiên</div>
+        <div class="telegram">Telegram: <a href="https://t.me/deptraiaiyeu" target="_blank">Vũ Xuân Kiên</a></div>
+        <div class="api-key">Free ApiKey: xuankien121w</div>
+
+        <div class="category">API List</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>API</th>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Params / Query</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>/check_ban</td>
+                    <td>GET</td>
+                    <td>Check Ban Account Free Fire</td>
+                    <td>No query</td>
+                    <td><span class="status">Active</span></td>
+                    <td><a href="https://api-kiendev.vercel.appcheck_ban" target="_blank" class="get-btn">GET</a></td>
+                </tr>
+                <tr>
+                    <td>/zingmp3_search</td>
+                    <td>GET</td>
+                    <td>Search Music From ZingMP3</td>
+                    <td>No query</td>
+                    <td><span class="status">Active</span></td>
+                    <td><a href="https://api-kiendev.vercel.app/zingmp3_search" target="_blank" class="get-btn">GET</a></td>
+                </tr>
+                <tr>
+                    <td>/zingmp3_download</td>
+                    <td>GET</td>
+                    <td>Download Music From ZingMP3</td>
+                    <td>No query</td>
+                    <td><span class="status">Active</span></td>
+                    <td><a href="https://api-kiendev.vercel.app/zingmp3_download" target="_blank" class="get-btn">GET</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
