@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, render_template
 import hashlib
 import hmac
 import time
@@ -172,15 +172,7 @@ def zingmp3_download():
 
 @app.route("/", methods=["GET"])
 def home():
-    return jsonify({
-        "listAPIs": [
-            "/check_ban: Check Ban Account Free Fire",
-            "/zingmp3_search: Search Music From ZingMP3",
-            "/zingmp3_download: Download Music From ZingMP3",
-            "Group Telegram Support: @deptraiaiyeu"
-        ]
-
-    })
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
