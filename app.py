@@ -231,6 +231,36 @@ def random_girl_video():
         return jsonify({"error": "Không có video nào trong danh sách"}, status=404)
     return jsonify({"video_url": random.choice(videos)})
 
+@app.route("/tiktok_download", methods=["GET"])
+def tiktok_download():
+    def download_tiktok(url):
+        try:
+            api_url = f"https://www.tikwm.com/api/?url={url}"
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "application/json"
+            }
+            response = requests.get(api_url, headers=headers, timeout=10)
+            if response.status_code != 200:
+                return {"error": "Không thể kết nối tới API TikTok", "status_code": 500}
+            data = response.json()
+            if data.get("code", -1) != 0:
+                return {"error": "URL TikTok không hợp lệ hoặc không thể tải", "status_code": 400}
+            if not data.get("data"):
+                return {"error": "Không tìm thấy dữ liệu video", "status_code": 404}
+            return data
+        except Exception as e:
+            return {"error": str(e), "status_code": 500}
+    api_key = request.args.get("apikey")
+    key_validation = validate_api_key(api_key)
+    if "error" in key_validation:
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
+    tiktok_url = request.args.get("url", "")
+    if not tiktok_url:
+        return Response(json.dumps({"error": "Yêu cầu URL TikTok", "status_code": 400}, ensure_ascii=False), mimetype="application/json")
+    result = download_tiktok(tiktok_url)
+    return Response(json.dumps(result, ensure_ascii=False), mimetype="application/json")
+
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
