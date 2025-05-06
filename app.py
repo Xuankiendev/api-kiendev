@@ -173,12 +173,13 @@ def zingmp3_download():
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({
-        "message": [
-            "Liên hệ:",
-            "Telegram: Vũ Xuân Kiên (@xkprj)",
-            "Group Telegram: @deptraiaiyeu",
-            "Để lấy cách sử dụng APIs!"
+        "listAPIs": [
+            "/check_ban: Check Ban Account Free Fire",
+            "/zingmp3_search: Search Music From ZingMP3",
+            "/zingmp3_download: Download Music From ZingMP3",
+            "Group Telegram Support: @deptraiaiyeu"
         ]
+
     })
 
 if __name__ == "__main__":
