@@ -1,6 +1,3 @@
-
-
-
 from flask import Flask, request, jsonify, Response, render_template
 import hashlib
 import hmac
@@ -25,13 +22,11 @@ def validate_api_key(api_key):
         return {"error": "Thiếu ApiKey", "status_code": 401}
     if api_key not in VALID_API_KEYS:
         return {"error": "ApiKey không hợp lệ", "status_code": 401}
-    
     status = VALID_API_KEYS[api_key]
     if status == "inactive":
         return {"error": "ApiKey đã bị thay đổi", "status_code": 403}
     if status == "banned":
         return {"error": "ApiKey đã bị cấm", "status_code": 403}
-    
     return {"valid": True}
 
 @app.route("/check_ban", methods=["GET"])
@@ -211,48 +206,33 @@ def zingmp3_download():
     except Exception as e:
         return jsonify({"error": str(e), "status_code": 500}, status=500)
 
+def load_media(file_path):
+    try:
+        with open(file_path, 'r') as f:
+            return [line.strip() for line in f if line.strip()]
+    except:
+        return []
+
 @app.route("/random_girl_image", methods=["GET"])
 def random_girl_image():
-    config = {
-        "FILE_PATH": "assets/girl.txt"
-    }
-
-    def load_girl_images():
-        try:
-            with open(config["FILE_PATH"], 'r') as f:
-                return [line.strip() for line in f if line.strip()]
-        except:
-            return []
-
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
     if "error" in key_validation:
         return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
 
-    images = load_girl_images()
+    images = load_media("assets/girl.txt")
     if not images:
         return jsonify({"error": "Không có ảnh nào trong danh sách"}, status=404)
     return jsonify({"image_url": random.choice(images)})
 
 @app.route("/random_girl_video", methods=["GET"])
 def random_girl_video():
-    config = {
-        "FILE_PATH": "assets/videogirl.txt"
-    }
-
-    def load_girl_videos():
-        try:
-            with open(config["FILE_PATH"], 'r') as f:
-                return [line.strip() for line in f if line.strip()]
-        except:
-            return []
-
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
     if "error" in key_validation:
         return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
 
-    videos = load_girl_videos()
+    videos = load_media("assets/videogirl.txt")
     if not videos:
         return jsonify({"error": "Không có video nào trong danh sách"}, status=404)
     return jsonify({"video_url": random.choice(videos)})
