@@ -1,3 +1,6 @@
+
+
+
 from flask import Flask, request, jsonify, Response, render_template
 import hashlib
 import hmac
@@ -8,8 +11,8 @@ import random
 import os
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
-# API Key Validation
 try:
     with open('config.json', 'r') as f:
         config = json.load(f)
@@ -57,20 +60,20 @@ def bancheck():
                     "uid": player_id,
                     "isBanned": bool(is_banned)
                 }
-                return Response(json.dumps(result), mimetype="application/json")
+                return Response(json.dumps(result, ensure_ascii=False), mimetype="application/json")
             else:
-                return Response(json.dumps({"error": "Không thể lấy dữ liệu từ máy chủ", "status_code": 500}), mimetype="application/json")
+                return Response(json.dumps({"error": "Không thể lấy dữ liệu từ máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json")
         except Exception as e:
-            return Response(json.dumps({"error": str(e), "status_code": 500}), mimetype="application/json")
+            return Response(json.dumps({"error": str(e), "status_code": 500}, ensure_ascii=False), mimetype="application/json")
 
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
     if "error" in key_validation:
-        return Response(json.dumps(key_validation), mimetype="application/json")
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
     
     player_id = request.args.get("uid", "")
     if not player_id:
-        return Response(json.dumps({"error": "Yêu cầu ID người chơi", "status_code": 400}), mimetype="application/json")
+        return Response(json.dumps({"error": "Yêu cầu ID người chơi", "status_code": 400}, ensure_ascii=False), mimetype="application/json")
     
     return check_banned(player_id)
 
@@ -108,11 +111,11 @@ def zingmp3_search():
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
     if "error" in key_validation:
-        return Response(json.dumps(key_validation), mimetype="application/json")
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
 
     keyword = request.args.get("keyword", "")
     if not keyword:
-        return jsonify({"error": "Yêu cầu từ khóa"}), 400
+        return jsonify({"error": "Yêu cầu từ khóa"}, status=400)
 
     try:
         ctime = str(int(time.time()))
@@ -134,7 +137,7 @@ def zingmp3_search():
         result = request_zing_mp3(config["PATH"], params)
         return jsonify(result)
     except Exception as e:
-        return jsonify({"error": str(e), "status_code": 500}), 500
+        return jsonify({"error": str(e), "status_code": 500}, status=500)
 
 @app.route("/zingmp3_download", methods=["GET"])
 def zingmp3_download():
@@ -168,11 +171,11 @@ def zingmp3_download():
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
     if "error" in key_validation:
-        return Response(json.dumps(key_validation), mimetype="application/json")
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
 
     song_id = request.args.get("song_id", "")
     if not song_id:
-        return jsonify({"error": "Yêu cầu ID bài hát"}), 400
+        return jsonify({"error": "Yêu cầu ID bài hát"}, status=400)
 
     try:
         ctime = str(int(time.time()))
@@ -188,16 +191,25 @@ def zingmp3_download():
             })
         }
         streaming_info = request_zing_mp3(config["PATH"], params)
-        if "data" in streaming_info:
-            download_url = streaming_info["data"].get("streaming", "")
-            if download_url:
-                return jsonify({"download_url": download_url})
-            else:
-                return jsonify({"error": "Không tìm thấy URL tải xuống"}), 404
-        else:
-            return jsonify({"error": "Không thể lấy dữ liệu phát bài hát"}), 500
+        
+        if streaming_info.get("err", -1) != 0 or not streaming_info.get("data"):
+            return jsonify({"error": "Không thể tải bài hát này", "status_code": 500}, status=500)
+        
+        audio_url = streaming_info["data"].get("320")
+        quality = "320kbps"
+        if audio_url == "VIP" or not audio_url:
+            audio_url = streaming_info["data"].get("128")
+            quality = "128kbps"
+        
+        if not audio_url:
+            return jsonify({"error": "Không tìm thấy URL tải xuống", "status_code": 404}, status=404)
+        
+        return jsonify({
+            "download_url": audio_url,
+            "quality": quality
+        })
     except Exception as e:
-        return jsonify({"error": str(e), "status_code": 500}), 500
+        return jsonify({"error": str(e), "status_code": 500}, status=500)
 
 @app.route("/random_girl_image", methods=["GET"])
 def random_girl_image():
@@ -215,11 +227,11 @@ def random_girl_image():
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
     if "error" in key_validation:
-        return Response(json.dumps(key_validation), mimetype="application/json")
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
 
     images = load_girl_images()
     if not images:
-        return jsonify({"error": "Không có ảnh nào trong danh sách"}), 404
+        return jsonify({"error": "Không có ảnh nào trong danh sách"}, status=404)
     return jsonify({"image_url": random.choice(images)})
 
 @app.route("/random_girl_video", methods=["GET"])
@@ -238,11 +250,11 @@ def random_girl_video():
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
     if "error" in key_validation:
-        return Response(json.dumps(key_validation), mimetype="application/json")
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json")
 
     videos = load_girl_videos()
     if not videos:
-        return jsonify({"error": "Không có video nào trong danh sách"}), 404
+        return jsonify({"error": "Không có video nào trong danh sách"}, status=404)
     return jsonify({"video_url": random.choice(videos)})
 
 @app.route("/", methods=["GET"])
