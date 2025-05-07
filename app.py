@@ -303,6 +303,27 @@ def chat_gemini():
     except Exception:
         return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
+@app.route("/screenshot", methods=["GET"])
+def screenshot():
+    api_key = request.args.get("apikey")
+    key_validation = validate_api_key(api_key)
+    if key_validation:
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json", status=key_validation["status_code"])
+
+    url = request.args.get("url", "")
+    if not url:
+        return Response(json.dumps({"error": "Yêu cầu URL để chụp ảnh màn hình", "status_code": 400}, ensure_ascii=False), mimetype="application/json", status=400)
+
+    try:
+        screenshot_url = f"https://image.thum.io/get/width/1920/crop/400/fullpage/noanimate/{url}"
+        response = requests.get(screenshot_url, timeout=10)
+        if response.status_code != 200:
+            return Response(json.dumps({"error": "Không thể chụp ảnh màn hình", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+
+        return Response(response.content, mimetype=response.headers['Content-Type'])
+    except Exception:
+        return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
