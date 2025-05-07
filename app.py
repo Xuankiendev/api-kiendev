@@ -265,6 +265,44 @@ def tiktok_download():
     result = download_tiktok(tiktok_url)
     return Response(json.dumps(result, ensure_ascii=False), mimetype="application/json", status=result.get("status_code", 200))
 
+@app.route("/chat_gemini", methods=["GET"])
+def chat_gemini():
+    api_key = request.args.get("apikey")
+    key_validation = validate_api_key(api_key)
+    if key_validation:
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json", status=key_validation["status_code"])
+
+    ask = request.args.get("ask", "")
+    if not ask:
+        return Response(json.dumps({"error": "Câu hỏi là bắt buộc", "status_code": 400}, ensure_ascii=False), mimetype="application/json", status=400)
+
+    prompt = request.args.get("prompt", "")
+
+    try:
+        api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyC5VvVGBk3T0TzfF_JCaDTDPAW97oRhdrc"
+        headers = {'Content-Type': 'application/json'}
+        data = {
+            "contents": [
+                {"role": "user", "parts": [{"text": prompt}]} if prompt else {"role": "user", "parts": [{"text": ask}]}
+            ]
+        }
+        response = requests.post(api_url, headers=headers, data=json.dumps(data), timeout=5)
+        if response.status_code != 200:
+            return Response(json.dumps({"error": "Lỗi khi gọi API Gemini", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+        
+        response_json = response.json()
+        if 'candidates' in response_json and response_json['candidates']:
+            answer = response_json['candidates'][0]['content']['parts'][0]['text']
+            result = {
+                "query": ask,
+                "answer": answer,
+                "prompt_used": prompt if prompt else "Không có prompt"
+            }
+            return Response(json.dumps(result, ensure_ascii=False), mimetype="application/json")
+        return Response(json.dumps({"error": "Không nhận được câu trả lời hợp lệ từ API Gemini", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+    except Exception:
+        return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
