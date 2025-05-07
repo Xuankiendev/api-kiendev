@@ -315,7 +315,7 @@ def screenshot():
         return Response(json.dumps({"error": "Yêu cầu URL để chụp ảnh màn hình", "status_code": 400}, ensure_ascii=False), mimetype="application/json", status=400)
 
     try:
-        screenshot_url = f"https://image.thum.io/get/width/1920/crop/400/fullpage/noanimate/{url}"
+        screenshot_url = f"https://api.site-shot.com/?url={url}&userkey=MAAIEYKBJAIDBB7IYJLBPSC6LV"
         response = requests.get(screenshot_url, timeout=10)
         if response.status_code != 200:
             return Response(json.dumps({"error": "Không thể chụp ảnh màn hình", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
