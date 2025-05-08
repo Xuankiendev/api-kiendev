@@ -338,7 +338,7 @@ def change_text_to_audio():
 
     try:
         tts = gTTS(text=text, lang='vi')
-        audio_file = f"/assets/voice_{int(time.time())}.mp3"
+        audio_file = f"assets/voice_{int(time.time())}.aac"
         tts.save(audio_file)
         with open(audio_file, 'rb') as f:
             audio_data = f.read()
