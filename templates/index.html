@@ -124,10 +124,9 @@
         .api-key .key-text.revealed {
             filter: blur(0);
         }
-        /* Style for the GET method text */
         .method-get {
             display: inline-block;
-            background: #32CD32; /* Slightly darker green */
+            background: #32CD32;
             color: #fff;
             padding: 0.25rem 0.75rem;
             border-radius: 0.25rem;
@@ -137,7 +136,7 @@
             transition: all 0.2s ease;
         }
         .method-get:hover {
-            background: #228B22; /* Darker green on hover */
+            background: #228B22;
             transform: scale(1.05);
         }
     </style>
@@ -146,7 +145,7 @@
     <div class="container">
         <h1>API Documentation</h1>
         <div class="telegram">Telegram: <a href="https://t.me/deptraiaiyeu" target="_blank">Vũ Xuân Kiên</a></div>
-        <div class="api-key">Lưu ý: <span class="key-text" onclick="this.classList.toggle('revealed')">ApiKey miễn phí là "xuankien1212", liên hệ Telegram nếu cần mua ApiKey</span></div>
+        <div class="api-key">Lưu ý: <span class="key-text" onclick="this.classList.toggle('reve sy; pointer-events: none;">API Key miễn phí là "xuankien1212", liên hệ Telegram nếu cần mua API Key</span></div>
 
         <div class="category">API List</div>
         <table>
@@ -181,12 +180,12 @@
                     <td>Tải Xuống Nhạc ZingMP3</td>
                     <td><span class="method-get">GET</span></td>
                     <td>Download Music From ZingMP3</td>
-                    <td>apikey, keyword</td>
+                    <td>apikey, song_id</td>
                     <td><span class="status">Active</span></td>
                     <td><a href="https://api-kiendev.vercel.app/zingmp3_download" target="_blank" class="get-btn">GET</a></td>
                 </tr>
                 <tr>
-                    <td>Video gái ngẫu nhiên</td>
+                    <td>Video Gái Ngẫu Nhiên</td>
                     <td><span class="method-get">GET</span></td>
                     <td>Random Video Girl</td>
                     <td>apikey</td>
@@ -194,7 +193,7 @@
                     <td><a href="https://api-kiendev.vercel.app/random_girl_video" target="_blank" class="get-btn">GET</a></td>
                 </tr>
                 <tr>
-                    <td>Ảnh gái ngẫu nhiên</td>
+                    <td>Ảnh Gái Ngẫu Nhiên</td>
                     <td><span class="method-get">GET</span></td>
                     <td>Random Image Girl</td>
                     <td>apikey</td>
@@ -202,7 +201,7 @@
                     <td><a href="https://api-kiendev.vercel.app/random_girl_image" target="_blank" class="get-btn">GET</a></td>
                 </tr>
                 <tr>
-                    <td>Tải xuống ảnh, video TikTok</td>
+                    <td>Tải Xuống Ảnh, Video TikTok</td>
                     <td><span class="method-get">GET</span></td>
                     <td>Download Image, Video TikTok</td>
                     <td>apikey, url</td>
@@ -210,15 +209,15 @@
                     <td><a href="https://api-kiendev.vercel.app/tiktok_download" target="_blank" class="get-btn">GET</a></td>
                 </tr>
                 <tr>
-                    <td>Trò chuyện với Gemini</td>
+                    <td>Trò Chuyện Với Gemini</td>
                     <td><span class="method-get">GET</span></td>
                     <td>Chat Gemini</td>
-                    <td>apikey, ask(+prompt)</td>
+                    <td>apikey, ask, prompt (optional)</td>
                     <td><span class="status">Active</span></td>
                     <td><a href="https://api-kiendev.vercel.app/chat_gemini" target="_blank" class="get-btn">GET</a></td>
                 </tr>
                 <tr>
-                    <td>Chụp ảnh màn hình</td>
+                    <td>Chụp Ảnh Màn Hình</td>
                     <td><span class="method-get">GET</span></td>
                     <td>Screenshot Website</td>
                     <td>apikey, url</td>
@@ -226,12 +225,12 @@
                     <td><a href="https://api-kiendev.vercel.app/screenshot" target="_blank" class="get-btn">GET</a></td>
                 </tr>
                 <tr>
-                    <td>Chuyển văn bản thành giọng nói</td>
+                    <td>Chuyển Văn Bản Thành Giọng Nói</td>
                     <td><span class="method-get">GET</span></td>
-                    <td>Change Text To Audio</td>
+                    <td>Text To Audio</td>
                     <td>apikey, text</td>
                     <td><span class="status">Active</span></td>
-                    <td><a href="https://api-kiendev.vercel.app/change_text_to_audio" target="_blank" class="get-btn">GET</a></td>
+                    <td><a href="https://api-kiendev.vercel.app/text_to_audio" target="_blank" class="get-btn">GET</a></td>
                 </tr>
             </tbody>
         </table>
