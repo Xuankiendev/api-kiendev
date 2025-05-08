@@ -19,7 +19,7 @@ def get_hmac512(string, key):
     return hmac.new(key.encode(), string.encode(), hashlib.sha512).hexdigest()
 
 def get_sig(path, params):
-    param_string = ''.join(f"{key}={params[key]}" for key in sorted(params.keys()) if key in ["ctime", "id", "type", "page", "count", "version", "q"])
+    param_string = ''.join(f"{key}={params[key]}" for key in sorted(params.keys()) if key in ["ctime", "id", "type", "page", "count", "version"])
     return get_hmac512(path + get_hash256(param_string), SECRET_KEY)
 
 def get_cookie():
