@@ -15,7 +15,7 @@ def screenshot():
         return json_response({'error': 'Cần URL để chụp ảnh', 'status': 400}, 400)
 
     try:
-        screenshot_url = f'http://image.thum.io/get/fullPage/1/width/1280/noAds/1/wait/5/?url={url}'
+        screenshot_url = f'https://image.thum.io/get/width/1920/crop/400/fullpage/noanimate/{url}'
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept': 'image/*'
