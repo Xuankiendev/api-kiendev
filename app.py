@@ -56,8 +56,8 @@ def bancheck():
             }
             return Response(json.dumps(result, ensure_ascii=False), mimetype="application/json")
         return Response(json.dumps({"error": "Không thể lấy dữ liệu từ máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
-    except Exception:
-        return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+    except Exception as e:
+        return Response(json.dumps({"error": f"Lỗi máy chủ: {str(e)}", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
 @app.route("/zingmp3_search", methods=["GET"])
 def zingmp3_search():
@@ -124,8 +124,8 @@ def zingmp3_search():
         }
         result = request_zing_mp3(config["PATH"], params)
         return Response(json.dumps(result, ensure_ascii=False), mimetype="application/json")
-    except Exception:
-        return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+    except Exception as e:
+        return Response(json.dumps({"error": f"Lỗi máy chủ: {str(e)}", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
 @app.route("/zingmp3_download", methods=["GET"])
 def zingmp3_download():
@@ -199,14 +199,14 @@ def zingmp3_download():
             return Response(json.dumps({"error": "Không tìm thấy URL tải xuống", "status_code": 404}, ensure_ascii=False), mimetype="application/json", status=404)
         
         return Response(json.dumps({"download_url": audio_url, "quality": quality}, ensure_ascii=False), mimetype="application/json")
-    except Exception:
-        return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+    except Exception as e:
+        return Response(json.dumps({"error": f"Lỗi máy chủ: {str(e)}", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
 def load_media(file_path):
     try:
         with open(file_path, 'r') as f:
             return [line.strip() for line in f if line.strip()]
-    except Exception:
+    except Exception as e:
         return []
 
 @app.route("/random_girl_image", methods=["GET"])
@@ -251,8 +251,8 @@ def tiktok_download():
             if not data.get("data"):
                 return {"error": "Không tìm thấy dữ liệu video", "status_code": 404}
             return data
-        except Exception:
-            return {"error": "Lỗi máy chủ", "status_code": 500"}
+        except Exception as e:
+            return {"error": f"Lỗi máy chủ: {str(e)}", "status_code": 500}
     
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
@@ -301,8 +301,8 @@ def chat_gemini():
             }
             return Response(json.dumps(result, ensure_ascii=False), mimetype="application/json")
         return Response(json.dumps({"error": "Không nhận được câu trả lời hợp lệ từ API Gemini", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
-    except Exception:
-        return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+    except Exception as e:
+        return Response(json.dumps({"error": f"Lỗi máy chủ: {str(e)}", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
 @app.route("/screenshot", methods=["GET"])
 def screenshot():
@@ -322,8 +322,8 @@ def screenshot():
             return Response(json.dumps({"error": "Không thể chụp ảnh màn hình", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
         return Response(response.content, mimetype=response.headers['Content-Type'])
-    except Exception:
-        return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+    except Exception as e:
+        return Response(json.dumps({"error": f"Lỗi máy chủ: {str(e)}", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
 @app.route("/change_text_to_audio", methods=["GET"])
 def change_text_to_audio():
@@ -338,12 +338,12 @@ def change_text_to_audio():
 
     try:
         tts = gTTS(text=text, lang='vi')
-        audio_file = f"/tmp/voice.aac"
+        audio_file = f"/assets/voice_{int(time.time())}.mp3"
         tts.save(audio_file)
         with open(audio_file, 'rb') as f:
             audio_data = f.read()
         os.remove(audio_file)
-        return Response(audio_data, mimetype="audio/aac")
+        return Response(audio_data, mimetype="audio/mpeg")
     except Exception as e:
         return Response(json.dumps({"error": f"Lỗi khi chuyển văn bản thành giọng nói: {str(e)}", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
