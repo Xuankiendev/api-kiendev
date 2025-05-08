@@ -13,5 +13,5 @@ def screenshot():
     if not url:
         return json_response({'error': 'Cần URL để chụp ảnh', 'status': 400}, 400)
 
-    screenshot_url = f'https://api.site-shot.com/?url={url}&userkey=MAAIEYKBJAOPKB7IQ6LBIZ2BT3'
+    screenshot_url = f'https://image.thum.io/get/width/1920/crop/675/noanimate/{url}'
     return redirect(screenshot_url)
