@@ -252,7 +252,7 @@ def tiktok_download():
                 return {"error": "Không tìm thấy dữ liệu video", "status_code": 404}
             return data
         except Exception:
-            return {"error": "Lỗi máy chủ", "status_code": 500}
+            return {"error": "Lỗi máy chủ", "status_code": 500"}
     
     api_key = request.args.get("apikey")
     key_validation = validate_api_key(api_key)
@@ -338,14 +338,14 @@ def change_text_to_audio():
 
     try:
         tts = gTTS(text=text, lang='vi')
-        audio_file = f"audio_{int(time.time())}.mp3"
+        audio_file = f"/tmp/voice.aac"
         tts.save(audio_file)
         with open(audio_file, 'rb') as f:
             audio_data = f.read()
         os.remove(audio_file)
-        return Response(audio_data, mimetype="audio/mpeg")
-    except Exception:
-        return Response(json.dumps({"error": "Lỗi khi chuyển văn bản thành giọng nói", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+        return Response(audio_data, mimetype="audio/aac")
+    except Exception as e:
+        return Response(json.dumps({"error": f"Lỗi khi chuyển văn bản thành giọng nói: {str(e)}", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
 @app.route("/", methods=["GET"])
 def home():
