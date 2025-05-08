@@ -6,6 +6,7 @@ import requests
 import json
 import random
 import os
+from gtts import gTTS
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -323,6 +324,28 @@ def screenshot():
         return Response(response.content, mimetype=response.headers['Content-Type'])
     except Exception:
         return Response(json.dumps({"error": "Lỗi máy chủ", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
+
+@app.route("/change_text_to_audio", methods=["GET"])
+def change_text_to_audio():
+    api_key = request.args.get("apikey")
+    key_validation = validate_api_key(api_key)
+    if key_validation:
+        return Response(json.dumps(key_validation, ensure_ascii=False), mimetype="application/json", status=key_validation["status_code"])
+
+    text = request.args.get("text", "")
+    if not text:
+        return Response(json.dumps({"error": "Yêu cầu văn bản", "status_code": 400}, ensure_ascii=False), mimetype="application/json", status=400)
+
+    try:
+        tts = gTTS(text=text, lang='vi')
+        audio_file = f"audio_{int(time.time())}.mp3"
+        tts.save(audio_file)
+        with open(audio_file, 'rb') as f:
+            audio_data = f.read()
+        os.remove(audio_file)
+        return Response(audio_data, mimetype="audio/mpeg")
+    except Exception:
+        return Response(json.dumps({"error": "Lỗi khi chuyển văn bản thành giọng nói", "status_code": 500}, ensure_ascii=False), mimetype="application/json", status=500)
 
 @app.route("/", methods=["GET"])
 def home():
