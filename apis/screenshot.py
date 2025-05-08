@@ -1,4 +1,5 @@
-from flask import Blueprint, request, redirect
+from flask import Blueprint, request, Response
+import requests
 from .utils import check_key, json_response
 
 screenshot_bp = Blueprint('screenshot', __name__)
@@ -13,5 +14,20 @@ def screenshot():
     if not url:
         return json_response({'error': 'Cần URL để chụp ảnh', 'status': 400}, 400)
 
-    screenshot_url = f'https://image.thum.io/get/width/1920/crop/675/noanimate/{url}'
-    return redirect(screenshot_url)
+    try:
+        screenshot_url = f'http://image.thum.io/get/width/1200/wait/5/?url={url}'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'image/*'
+        }
+        response = requests.get(screenshot_url, headers=headers, timeout=15)
+        if response.status_code != 200:
+            error_message = response.text[:200]
+            return json_response({
+                'error': 'Không chụp được ảnh',
+                'status_code': response.status_code,
+                'response_text': error_message
+            }, 500)
+        return Response(response.content, mimetype=response.headers.get('Content-Type', 'image/png'))
+    except Exception as e:
+        return json_response({'error': f'Lỗi server: {str(e)}', 'status': 500}, 500)
