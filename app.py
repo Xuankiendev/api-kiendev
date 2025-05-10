@@ -21,13 +21,34 @@ def send_telegram_message(message):
 
 @app.before_request
 def log_request():
-    request_info = {
-        'endpoint': request.path,
-        'ip_address': request.remote_addr,
-        'user_agent': request.headers.get('User-Agent', 'Không có'),
-        'request_time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    }
-    message = f"New Request API: {request_info['endpoint']}:\nIP: {request_info['ip_address']}\nUser-Agent: {request_info['user_agent']}\nTime: {request_info['request_time']}"
+    endpoint = request.path
+    method = request.method
+    ip = request.remote_addr
+    user_agent = request.headers.get('User-Agent', 'Không có')
+    headers = dict(request.headers)
+    query = request.args.to_dict()
+    try:
+        body = request.get_json(force=True)
+    except:
+        body = {}
+
+    request_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    message = (
+        f"📊 New Request API:\n"
+        f"🔗 Endpoint: {endpoint}\n"
+        f"📌 Method: {method}\n"
+        f"🔢 IP: {ip}\n"
+        f"👤 User-Agent: {user_agent}\n"
+        f"📝 Query: {query}\n"
+        f"🏃 Body: {body}\n"
+        f"🛡 Headers: {headers}\n"
+        f"🧭 Time: {request_time}"
+    )
+
+    if len(message) > 4000:
+        message = message[:3990] + "\n...(cắt bớt)"
+
     send_telegram_message(message)
 
 @app.route('/')
