@@ -29,7 +29,7 @@
             color: #1a3c87;
             margin-bottom: 0.25rem;
         }
-        .telegram, .api-key {
+        .telegram, .api-key, .request-info {
             font-size: 0.875rem;
             color: #666;
             margin-bottom: 0.25rem;
@@ -157,11 +157,33 @@
             background: #228B22;
             transform: scale(1.05);
         }
+        .request-info {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+        }
+        .request-info p {
+            margin: 0.25rem 0;
+        }
+        .request-info strong {
+            color: #1a3c87;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>API Documentation</h1>
+        <div class="request-info">
+            <strong>Request Information</strong>
+            <p><strong>IP Address:</strong> {{ request_info.ip_address }}</p>
+            <p><strong>User-Agent:</strong> {{ request_info.user_agent }}</p>
+            <p><strong>Request Time:</strong> {{ request_info.request_time }}</p>
+            <p><strong>Host:</strong> {{ request_info.host }}</p>
+            <p><strong>Referrer:</strong> {{ request_info.referrer }}</p>
+            <p><strong>Method:</strong> {{ request_info.method }}</p>
+        </div>
         <div class="telegram">Telegram: <a href="https://t.me/deptraiaiyeu" target="_blank">Vũ Xuân Kiên</a></div>
         <div class="api-key">Lưu ý: <span class="key-text" onclick="this.classList.toggle('revealed')">API Key miễn phí là "xuankien1212", liên hệ Telegram nếu cần mua API Key</span></div>
 
@@ -175,6 +197,7 @@
                     <th>Params / Query</th>
                     <th>Status</th>
                     <th></th>
+               
                 </tr>
             </thead>
             <tbody>
