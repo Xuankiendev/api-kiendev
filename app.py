@@ -6,6 +6,7 @@ from apis.tiktok import tiktok_bp
 from apis.gemini import gemini_bp
 from apis.screenshot import screenshot_bp
 from apis.text_to_audio import text_to_audio_bp
+import requests
 import datetime
 
 app = Flask(__name__)
@@ -14,17 +15,24 @@ app.config['JSON_AS_ASCII'] = False
 for bp in [check_ban_bp, zingmp3_bp, random_media_bp, tiktok_bp, gemini_bp, screenshot_bp, text_to_audio_bp]:
     app.register_blueprint(bp)
 
+def send_telegram_message(message):
+    url = "https://api.telegram.org/bot7687550929:AAEBNhw-76nKtpKYJ71Z6VV5eGOVsuZ4iBc/sendMessage?chat_id=-1002370415846&text=" + message
+    requests.get(url)
+
+@app.before_request
+def log_request():
+    request_info = {
+        'endpoint': request.path,
+        'ip_address': request.remote_addr,
+        'user_agent': request.headers.get('User-Agent', 'Không có'),
+        'request_time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    }
+    message = f"New Request API: {request_info['endpoint']}:\nIP: {request_info['ip_address']}\nUser-Agent: {request_info['user_agent']}\nTime: {request_info['request_time']}"
+    send_telegram_message(message)
+
 @app.route('/')
 def home():
-    request_info = {
-        'ip_address': request.remote_addr,
-        'user_agent': request.headers.get('User-Agent'),
-        'request_time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'host': request.host,
-        'referrer': request.headers.get('Referer', 'N/A'),
-        'method': request.method
-    }
-    return render_template('index.html', request_info=request_info)
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
