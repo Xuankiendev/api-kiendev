@@ -35,8 +35,8 @@ def log_request():
 
     message = (
         f"📊 New Request API 📊\n"
-        f"🔗 Link API: https://api-kiendev.vercel.app"
-        f"⛔ Endpoint: {endpoint}\n"
+        f"🔗 Link API: https://api-kiendev.vercel.app\n"
+        f"🧪 Endpoint: {endpoint}\n"
         f"📌 Method: {method}\n"
         f"🔢 IP: {ip}\n"
         f"👤 User-Agent: {user_agent}\n"
