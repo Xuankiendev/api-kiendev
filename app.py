@@ -25,7 +25,6 @@ def log_request():
     method = request.method
     ip = request.remote_addr
     user_agent = request.headers.get('User-Agent', 'Không có')
-    headers = dict(request.headers)
     query = request.args.to_dict()
     try:
         body = request.get_json(force=True)
@@ -35,14 +34,14 @@ def log_request():
     request_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     message = (
-        f"📊 New Request API:\n"
-        f"🔗 Endpoint: {endpoint}\n"
+        f"📊 New Request API 📊\n"
+        f"🔗 Link API: https://api-kiendev.vercel.app"
+        f"⛔ Endpoint: {endpoint}\n"
         f"📌 Method: {method}\n"
         f"🔢 IP: {ip}\n"
         f"👤 User-Agent: {user_agent}\n"
         f"📝 Query: {query}\n"
         f"🏃 Body: {body}\n"
-        f"🛡 Headers: {headers}\n"
         f"🧭 Time: {request_time}"
     )
 
