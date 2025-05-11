@@ -12,6 +12,7 @@ import datetime
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 request_logs = []
+start_time = datetime.datetime.now()
 
 for bp in [check_ban_bp, zingmp3_bp, random_media_bp, tiktok_bp, gemini_bp, screenshot_bp, text_to_audio_bp]:
     app.register_blueprint(bp)
@@ -49,7 +50,13 @@ def dashboard():
     endpoint_counts = {}
     for log in request_logs:
         endpoint_counts[log['endpoint']] = endpoint_counts.get(log['endpoint'], 0) + 1
-    return render_template('dashboard.html', total_requests=total_requests, unique_ips=unique_ips, endpoint_counts=endpoint_counts, logs=request_logs, domain=request.host_url.rstrip('/'))
+    uptime = datetime.datetime.now() - start_time
+    days = uptime.days
+    seconds = uptime.seconds
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    seconds = seconds % 60
+    return render_template('dashboard.html', total_requests=total_requests, unique_ips=unique_ips, endpoint_counts=endpoint_counts, logs=request_logs, domain=request.host_url.rstrip('/'), days=days, hours=hours, minutes=minutes, seconds=seconds)
 
 @app.route('/apis')
 def apis():
