@@ -16,11 +16,7 @@ def tiktok_download():
 
     try:
         api_url = f'https://www.tikwm.com/api/?url={tiktok_url}'
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'application/json'
-        }
-        response = requests.get(api_url, headers=headers, timeout=10)
+        response = requests.get(api_url, timeout=10)
         if response.status_code != 200:
             return json_response({'error': 'Lỗi kết nối API TikTok', 'status': 500}, 500)
 
@@ -45,11 +41,7 @@ def get_posts():
 
     try:
         api_url = f'https://www.tikwm.com/api/user/posts?unique_id={unique_id}'
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'application/json'
-        }
-        response = requests.get(api_url, headers=headers, timeout=10)
+        response = requests.get(api_url, timeout=10)
         if response.status_code != 200:
             return json_response({'error': 'Lỗi kết nối API TikTok', 'status': 500}, 500)
 
@@ -74,11 +66,7 @@ def search():
 
     try:
         api_url = f'https://www.tikwm.com/api/feed/search?keywords={keywords}'
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'application/json'
-        }
-        response = requests.get(api_url, headers=headers, timeout=10)
+        response = requests.get(api_url, timeout=10)
         if response.status_code != 200:
             return json_response({'error': 'Lỗi kết nối API TikTok', 'status': 500}, 500)
 
@@ -87,6 +75,31 @@ def search():
             return json_response({'error': 'Từ khóa không hợp lệ', 'status': 400}, 400)
         if not data.get('data'):
             return json_response({'error': 'Không tìm thấy kết quả', 'status': 404}, 404)
+        return json_response(data)
+    except Exception as e:
+        return json_response({'error': f'Lỗi server: {str(e)}', 'status': 500}, 500)
+
+@tiktok_bp.route('/tiktok_user_info', methods=['GET'])
+def tiktok_user_info():
+    api_key = request.args.get('apikey')
+    if error := check_key(api_key):
+        return json_response(error, error['status'])
+
+    unique_id = request.args.get('unique_id', '')
+    if not unique_id:
+        return json_response({'error': 'Cần unique_id', 'status': 400}, 400)
+
+    try:
+        api_url = f'https://www.tikwm.com/api/user/info?unique_id={unique_id}'
+        response = requests.get(api_url, timeout=10)
+        if response.status_code != 200:
+            return json_response({'error': 'Lỗi kết nối API TikTok', 'status': 500}, 500)
+
+        data = response.json()
+        if data.get('code', -1) != 0:
+            return json_response({'error': 'unique_id không hợp lệ', 'status': 400}, 400)
+        if not data.get('data'):
+            return json_response({'error': 'Không tìm thấy thông tin người dùng', 'status': 404}, 404)
         return json_response(data)
     except Exception as e:
         return json_response({'error': f'Lỗi server: {str(e)}', 'status': 500}, 500)
