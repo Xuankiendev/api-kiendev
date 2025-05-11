@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>API Documentation</h1>
+        <div class="telegram">Telegram: <a href="https://t.me/deptraiaiyeu" target="_blank">Vũ Xuân Kiên</a></div>
+        <div class="api-key">Lưu ý: <span class="key-text" onclick="this.classList.toggle('revealed')">API Key miễn phí là "xuankien1212", liên hệ Telegram nếu cần mua API Key</span></div>
+        <div class="category" onclick="toggleCategory(this, 'tiktok')">TikTok</div>
+        <table id="tiktok">
+            <thead>
+                <tr><th>API</th><th>Method</th><th>Description</th><th>Params / Query</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Tải Xuống Ảnh, Video TikTok</td><td><span class="method-get">GET</span></td><td>Download Image, Video TikTok</td><td>apikey, url</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/tiktok_download" target="_blank" class="get-btn">GET</a></td></tr>
+                <tr><td>Lấy Bài Đăng TikTok</td><td><span class="method-get">GET</span></td><td>Get TikTok User Posts</td><td>apikey, unique_id</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/get_posts" target="_blank" class="get-btn">GET</a></td></tr>
+                <tr><td>Tìm Kiếm TikTok</td><td><span class="method-get">GET</span></td><td>Search TikTok Content</td><td>apikey, keywords</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/search" target="_blank" class="get-btn">GET</a></td></tr>
+            </tbody>
+        </table>
+        <div class="category" onclick="toggleCategory(this, 'zingmp3')">ZingMP3</div>
+        <table id="zingmp3">
+            <thead>
+                <tr><th>API</th><th>Method</th><th>Description</th><th>Params / Query</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Tìm Kiếm Nhạc ZingMP3</td><td><span class="method-get">GET</span></td><td>Search Music From ZingMP3</td><td>apikey, keyword</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/zingmp3_search" target="_blank" class="get-btn">GET</a></td></tr>
+                <tr><td>Tải Xuống Nhạc ZingMP3</td><td><span class="method-get">GET</span></td><td>Download Music From ZingMP3</td><td>apikey, song_id</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/zingmp3_download" target="_blank" class="get-btn">GET</a></td></tr>
+                <tr><td>Lấy Lời Bài Hát ZingMP3</td><td><span class="method-get">GET</span></td><td>Get Lyric Music ZingMP3</td><td>apikey, song_id</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/zingmp3_get_lyric" target="_blank" class="get-btn">GET</a></td></tr>
+            </tbody>
+        </table>
+        <div class="category" onclick="toggleCategory(this, 'game')">Game</div>
+        <table id="game">
+            <thead>
+                <tr><th>API</th><th>Method</th><th>Description</th><th>Params / Query</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Check Ban</td><td><span class="method-get">GET</span></td><td>Check Ban Account Free Fire</td><td>apikey, uid</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/check_ban" target="_blank" class="get-btn">GET</a></td></tr>
+            </tbody>
+        </table>
+        <div class="category" onclick="toggleCategory(this, 'media')">Media</div>
+        <table id="media">
+            <thead>
+                <tr><th>API</th><th>Method</th><th>Description</th><th>Params / Query</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Video Gái Ngẫu Nhiên</td><td><span class="method-get">GET</span></td><td>Random Video Girl</td><td>apikey</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/random_girl_video" target="_blank" class="get-btn">GET</a></td></tr>
+                <tr><td>Ảnh Gái Ngẫu Nhiên</td><td><span class="method-get">GET</span></td><td>Random Image Girl</td><td>apikey</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/random_girl_image" target="_blank" class="get-btn">GET</a></td></tr>
+            </tbody>
+        </table>
+        <div class="category" onclick="toggleCategory(this, 'tool')">Tool</div>
+        <table id="tool">
+            <thead>
+                <tr><th>API</th><th>Method</th><th>Description</th><th>Params / Query</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Chụp Ảnh Màn Hình</td><td><span class="method-get">GET</span></td><td>Screenshot Website</td><td>apikey, url</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/screenshot" target="_blank" class="get-btn">GET</a></td></tr>
+                <tr><td>Chuyển Văn Bản Thành Giọng Nói</td><td><span class="method-get">GET</span></td><td>Text To Audio</td><td>apikey, text</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/text_to_audio" target="_blank" class="get-btn">GET</a></td></tr>
+            </tbody>
+        </table>
+        <div class="category" onclick="toggleCategory(this, 'ai')">AI</div>
+        <table id="ai">
+            <thead>
+                <tr><th>API</th><th>Method</th><th>Description</th><th>Params / Query</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Trò Chuyện Với Gemini</td><td><span class="method-get">GET</span></td><td>Chat Gemini</td><td>apikey, ask, prompt (optional)</td><td><span class="status">Active</span></td><td><a href="https://api-kiendev.vercel.app/chat_gemini" target="_blank" class="get-btn">GET</a></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function toggleCategory(element, tableId) {
+            const table = document.getElementById(tableId);
+            const isActive = table.classList.contains('active');
+            document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
+            document.querySelectorAll('table').forEach(tbl => tbl.classList.remove('active'));
+            if (!isActive) {
+                element.classList.add('active');
+                table.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
