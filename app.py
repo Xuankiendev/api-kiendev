@@ -56,7 +56,7 @@ def dashboard():
     hours = seconds // 3600
     minutes = (seconds % 3600) // 60
     seconds = seconds % 60
-    return render_template('dashboard.html', total_requests=total_requests, unique_ips=unique_ips, endpoint_counts=endpoint_counts, logs=request_logs, domain=request.host_url.rstrip('/'), days=days, hours=hours, minutes=minutes, seconds=seconds, start_time=start_time.timestamp())
+    return render_template('dashboard.html', total_requests=total_requests, unique_ips=unique_ips, endpoint_counts=endpoint_counts, logs=request_logs, domain=request.host_url.rstrip('/'), days=days, hours=hours, minutes=minutes, seconds=seconds, start_time=int(start_time.timestamp() * 1000))
 
 @app.route('/apis')
 def apis():
