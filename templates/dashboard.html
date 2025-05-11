@@ -68,16 +68,19 @@
             overflow: hidden;
             max-height: 500px;
             overflow-y: auto;
+            overflow-x: auto;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 1200px;
         }
         th, td {
             padding: 0.8rem;
             text-align: left;
             font-size: 0.85rem;
             border-bottom: 1px solid #4b5563;
+            white-space: nowrap;
         }
         th {
             background: #4b5563;
@@ -104,34 +107,12 @@
             border-radius: 0.5rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
-        .expand-btn {
-            cursor: pointer;
-            color: #818cf8;
-            text-decoration: underline;
-            font-size: 0.85rem;
-        }
-        .expand-btn:hover {
-            color: #a5b4fc;
-        }
-        .details-row {
-            display: none;
-            background: #2d3748;
-        }
-        .details-row.active {
-            display: table-row;
-        }
-        .details-content {
-            padding: 1rem;
-            font-size: 0.85rem;
-            color: #e5e7eb;
-            word-break: break-all;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>API Dashboard</h1>
-        <div class="uptime">APIs Đã Hoạt Động Trong: {{ days }} Ngày {{ hours }} Giờ {{ minutes }} Phút {{ seconds }} Giây</div>
+        <div class="uptime" id="uptime">APIs Đã Hoạt Động Trong: {{ days }} Ngày {{ hours }} Giờ {{ minutes }} Phút {{ seconds }} Giây</div>
         <div class="stats">
             <div class="stat-box">
                 <h2>Tổng Requests</h2>
@@ -159,7 +140,7 @@
         <div class="table-container">
             <table>
                 <thead>
-                    <tr><th>Time</th><th>IP</th><th>Endpoint</th><th>Method</th><th>User-Agent</th><th>Query</th><th>Body</th><th>Details</th></tr>
+                    <tr><th>Time</th><th>IP</th><th>Endpoint</th><th>Method</th><th>User-Agent</th><th>Query</th><th>Body</th></tr>
                 </thead>
                 <tbody>
                     {% for log in logs %}
@@ -168,16 +149,9 @@
                         <td>{{ log.ip }}</td>
                         <td>{{ log.endpoint }}</td>
                         <td>{{ log.method }}</td>
-                        <td>{{ log.user_agent | truncate(30, True) }}</td>
-                        <td>{{ log.query | string | truncate(30, True) }}</td>
-                        <td>{{ log.body | string | truncate(30, True) }}</td>
-                        <td><span class="expand-btn" onclick="toggleDetails(this)">View</span></td>
-                    </tr>
-                    <tr class="details-row" id="details-{{ loop.index }}">
-                        <td colspan="8" class="details-content">
-                            <strong>Full Query:</strong> {{ log.query | string }}<br>
-                            <strong>Full Body:</strong> {{ log.body | string }}
-                        </td>
+                        <td>{{ log.user_agent }}</td>
+                        <td>{{ log.query | string }}</td>
+                        <td>{{ log.body | string }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -185,10 +159,24 @@
         </div>
     </div>
     <script>
-        function toggleDetails(element) {
-            var row = element.closest('tr').nextElementSibling;
-            row.classList.toggle('active');
-            element.textContent = row.classList.contains('active') ? 'Hide' : 'View';
+        function updateUptime(startTime) {
+            const now = Date.now();
+            const uptime = now - startTime;
+            const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((uptime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
+            document.getElementById('uptime').textContent = `APIs Đã Hoạt Động Trong: ${days} Ngày ${hours} Giờ ${minutes} Phút ${seconds} Giây`;
+        }
+
+        const startTime = {{ start_time }};
+        console.log('startTime:', startTime);
+        if (typeof startTime === 'number' && !isNaN(startTime)) {
+            updateUptime(startTime);
+            setInterval(() => updateUptime(startTime), 1000);
+        } else {
+            console.error('Invalid startTime:', startTime);
+            document.getElementById('uptime').textContent = 'Error: Invalid start time';
         }
     </script>
 </body>
