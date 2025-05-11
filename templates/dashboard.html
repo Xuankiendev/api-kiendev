@@ -94,11 +94,28 @@
         tr:hover {
             background: #f3f4f6;
         }
+        .nav-btn {
+            display: inline-block;
+            background: #f59e0b;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+            margin-bottom: 1rem;
+        }
+        .nav-btn:hover {
+            background: #d97706;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>API Dashboard</h1>
+        <a href="{{ domain }}/apis" class="nav-btn">View API List</a>
         <div class="stats">
             <div class="stat-box">
                 <h2>Tổng Requests</h2>
