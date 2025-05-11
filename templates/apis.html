@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Dashboard</title>
+    <title>API Documentation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
@@ -29,120 +29,260 @@
             margin-bottom: 1rem;
             text-align: center;
         }
-        h2 {
+        .telegram, .api-key {
+            font-size: 0.9rem;
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .telegram a {
+            color: #6366f1;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .telegram a:hover {
+            color: #4f46e5;
+            text-decoration: underline;
+        }
+        .api-key .key-text {
+            filter: blur(3px);
+            cursor: pointer;
+            transition: filter 0.3s ease;
+        }
+        .api-key .key-text.revealed {
+            filter: blur(0);
+        }
+        .category {
             font-size: 1.5rem;
             font-weight: 600;
             color: #4f46e5;
-            margin: 1.5rem 0 1rem;
+            margin: 2rem 0 1rem;
+            padding: 0.75rem;
+            background: #ffffff;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
         }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .category:hover {
+            transform: translateY(-2px);
+        }
+        .category::before {
+            content: '▶';
+            margin-right: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+        .category.active::before {
+            transform: rotate(90deg);
+        }
+        .api-group {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        .stat-box {
+        .api-group.active {
+            display: grid;
+        }
+        .api-card {
             background: #ffffff;
+            border-radius: 0.75rem;
             padding: 1.5rem;
-            border-radius: 0.75rem;
-            text-align: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .stat-box:hover {
+        .api-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
-        .stat-box h2 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        .stat-box p {
-            font-size: 1.75rem;
-            font-weight: 700;
+        .api-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
             color: #1f2937;
+            margin-bottom: 0.75rem;
         }
-        .table-container {
-            background: #ffffff;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 1rem;
-            text-align: left;
+        .api-card p {
             font-size: 0.9rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        th {
-            background: #f9fafb;
             color: #6b7280;
+            margin: 0.25rem 0;
+        }
+        .method-get {
+            display: inline-block;
+            background: #10b981;
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
             font-weight: 500;
-            text-transform: uppercase;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
-        td {
-            color: #1f2937;
+        .method-get:hover {
+            background: #059669;
         }
-        tr:hover {
-            background: #f3f4f6;
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #dbeafe;
+            color: #3b82f6;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .get-btn {
+            display: inline-block;
+            background: #6366f1;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+            margin-top: 0.5rem;
+        }
+        .get-btn:hover {
+            background: #4f46e5;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>API Dashboard</h1>
-        <div class="stats">
-            <div class="stat-box">
-                <h2>Tổng Requests</h2>
-                <p>{{ total_requests }}</p>
+        <h1>API Documentation</h1>
+        <div class="telegram">Telegram: <a href="https://t.me/deptraiaiyeu" target="_blank">Vũ Xuân Kiên</a></div>
+        <div class="api-key">Lưu ý: <span class="key-text" onclick="this.classList.toggle('revealed')">API Key miễn phí là "xuankien1212", liên hệ Telegram nếu cần mua API Key</span></div>
+        <div class="category" onclick="toggleCategory(this, 'tiktok')">TikTok</div>
+        <div id="tiktok" class="api-group">
+            <div class="api-card">
+                <h3>Tải Xuống Ảnh, Video TikTok</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Download Image, Video TikTok</p>
+                <p><strong>Params:</strong> apikey, url</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/tiktok_download" target="_ Historic Response: blank" class="get-btn">GET</a>
             </div>
-            <div class="stat-box">
-                <h2>Unique IPs</h2>
-                <p>{{ unique_ips }}</p>
+            <div class="api-card">
+                <h3>Lấy Bài Đăng TikTok</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Get TikTok User Posts</p>
+                <p><strong>Params:</strong> apikey, unique_id</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/get_posts" target="_blank" class="get-btn">GET</a>
+            </div>
+            <div class="api-card">
+                <h3>Tìm Kiếm TikTok</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Search TikTok Content</p>
+                <p><strong>Params:</strong> apikey, keywords</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/search" target="_blank" class="get-btn">GET</a>
             </div>
         </div>
-        <h2>API Usage</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Endpoint</th><th>Request Count</th></tr>
-                </thead>
-                <tbody>
-                    {% for endpoint, count in endpoint_counts.items() %}
-                    <tr><td>{{ endpoint }}</td><td>{{ count }}</td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="category" onclick="toggleCategory(this, 'zingmp3')">ZingMP3</div>
+        <div id="zingmp3" class="api-group">
+            <div class="api-card">
+                <h3>Tìm Kiếm Nhạc ZingMP3</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Search Music From ZingMP3</p>
+                <p><strong>Params:</strong> apikey, keyword</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/zingmp3_search" target="_blank" class="get-btn">GET</a>
+            </div>
+            <div class="api-card">
+                <h3>Tải Xuống Nhạc ZingMP3</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Download Music From ZingMP3</p>
+                <p><strong>Params:</strong> apikey, song_id</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/zingmp3_download" target="_blank" class="get-btn">GET</a>
+            </div>
+            <div class="api-card">
+                <h3>Lấy Lời Bài Hát ZingMP3</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Get Lyric Music ZingMP3</p>
+                <p><strong>Params:</strong> apikey, song_id</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/zingmp3_get_lyric" target="_blank" class="get-btn">GET</a>
+            </div>
         </div>
-        <h2>Request Logs</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Time</th><th>IP</th><th>Endpoint</th><th>Method</th><th>User-Agent</th><th>Query</th><th>Body</th></tr>
-                </thead>
-                <tbody>
-                    {% for log in logs %}
-                    <tr>
-                        <td>{{ log.time }}</td>
-                        <td>{{ log.ip }}</td>
-                        <td>{{ log.endpoint }}</td>
-                        <td>{{ log.method }}</td>
-                        <td>{{ log.user_agent }}</td>
-                        <td>{{ log.query }}</td>
-                        <td>{{ log.body }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="category" onclick="toggleCategory(this, 'game')">Game</div>
+        <div id="game" class="api-group">
+            <div class="api-card">
+                <h3>Check Ban</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Check Ban Account Free Fire</p>
+                <p><strong>Params:</strong> apikey, uid</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/check_ban" target="_blank" class="get-btn">GET</a>
+            </div>
+        </div>
+        <div class="category" onclick="toggleCategory(this, 'media')">Media</div>
+        <div id="media" class="api-group">
+            <div class="api-card">
+                <h3>Video Gái Ngẫu Nhiên</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Random Video Girl</p>
+                <p><strong>Params:</strong> apikey</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/random_girl_video" target="_blank" class="get-btn">GET</a>
+            </div>
+            <div class="api-card">
+                <h3>Ảnh Gái Ngẫu Nhiên</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Random Image Girl</p>
+                <p><strong>Params:</strong> apikey</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/random_girl_image" target="_blank" class="get-btn">GET</a>
+            </div>
+        </div>
+        <div class="category" onclick="toggleCategory(this, 'tool')">Tool</div>
+        <div id="tool" class="api-group">
+            <div class="api-card">
+                <h3>Chụp Ảnh Màn Hình</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Screenshot Website</p>
+                <p><strong>Params:</strong> apikey, url</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/screenshot" target="_blank" class="get-btn">GET</a>
+            </div>
+            <div class="api-card">
+                <h3>Chuyển Văn Bản Thành Giọng Nói</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Text To Audio</p>
+                <p><strong>Params:</strong> apikey, text</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/text_to_audio" target="_blank" class="get-btn">GET</a>
+            </div>
+        </div>
+        <div class="category" onclick="toggleCategory(this, 'ai')">AI</div>
+        <div id="ai" class="api-group">
+            <div class="api-card">
+                <h3>Trò Chuyện Với Gemini</h3>
+                <p><strong>Method:</strong> <span class="method-get">GET</span></p>
+                <p><strong>Description:</strong> Chat Gemini</p>
+                <p><strong>Params:</strong> apikey, ask, prompt (optional)</p>
+                <p><strong>Status:</strong> <span class="status">Active</span></p>
+                <a href="https://api-kiendev.vercel.app/chat_gemini" target="_blank" class="get-btn">GET</a>
+            </div>
         </div>
     </div>
+    <script>
+        function toggleCategory(element, groupId) {
+            const group = document.getElementById(groupId);
+            const isActive = group.classList.contains('active');
+            document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
+            document.querySelectorAll('.api-group').forEach(grp => grp.classList.remove('active'));
+            if (!isActive) {
+                element.classList.add('active');
+                group.classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
