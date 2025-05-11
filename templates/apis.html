@@ -7,9 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #e0e7ff, #f3e8ff);
+            background: linear-gradient(135deg, #1f2937, #312e81);
             font-family: 'Inter', sans-serif;
-            color: #1f2937;
+            color: #e5e7eb;
             margin: 0;
             padding: 2rem;
         }
@@ -23,25 +23,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
         h1 {
-            font-size: 2.25rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            color: #4f46e5;
+            color: #a5b4fc;
             margin-bottom: 1rem;
             text-align: center;
         }
         .telegram, .api-key {
-            font-size: 0.9rem;
-            color: #6b7280;
+            font-size: 0.85rem;
+            color: #9ca3af;
             text-align: center;
             margin-bottom: 0.5rem;
         }
         .telegram a {
-            color: #6366f1;
+            color: #818cf8;
             text-decoration: none;
             transition: color 0.2s ease;
         }
         .telegram a:hover {
-            color: #4f46e5;
+            color: #a5b4fc;
             text-decoration: underline;
         }
         .api-key .key-text {
@@ -53,33 +53,33 @@
             filter: blur(0);
         }
         .category {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            color: #4f46e5;
+            color: #a5b4fc;
             margin: 2rem 0 1rem;
             padding: 0.75rem;
-            background: #ffffff;
+            background: #374151;
             border-radius: 0.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s ease;
         }
         .category:hover {
             transform: translateY(-2px);
-        }
-        .category.active::before {
-            transform: rotate(90deg);
         }
         .category::before {
             content: '▶';
             margin-right: 0.75rem;
             transition: transform 0.3s ease;
         }
+        .category.active::before {
+            transform: rotate(90deg);
+        }
         .api-group {
             display: none;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -87,34 +87,34 @@
             display: grid;
         }
         .api-card {
-            background: #ffffff;
+            background: #374151;
             border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 con 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 1.25rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .api-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
         .api-card h3 {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            color: #1f2937;
+            color: #e5e7eb;
             margin-bottom: 0.75rem;
         }
         .api-card p {
-            font-size: 0.9rem;
-            color: #6b7280;
+            font-size: 0.85rem;
+            color: #9ca3af;
             margin: 0.25rem 0;
         }
         .method-get {
             display: inline-block;
             background: #10b981;
             color: #fff;
-            padding: 0.25rem 0.75rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 0.25rem;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
         }
         .method-get:hover {
@@ -122,11 +122,11 @@
         }
         .status {
             display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: #dbeafe;
-            color: #3b82f6;
+            padding: 0.2rem 0.6rem;
+            background: #bfdbfe;
+            color: #1e40af;
             border-radius: 9999px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
             animation: pulse 2s infinite ease-in-out;
         }
@@ -136,18 +136,18 @@
         }
         .get-btn {
             display: inline-block;
-            background: #6366f1;
+            background: #818cf8;
             color: #fff;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 0.25rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             text-decoration: none;
             transition: background 0.2s ease, transform 0.2s ease;
             margin-top: 0.5rem;
         }
         .get-btn:hover {
-            background: #4f46e5;
+            background: #6366f1;
             transform: scale(1.05);
         }
     </style>
