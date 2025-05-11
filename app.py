@@ -18,7 +18,7 @@ for bp in [check_ban_bp, zingmp3_bp, random_media_bp, tiktok_bp, gemini_bp, scre
     app.register_blueprint(bp)
 
 def send_telegram_message(message):
-    url = f"https://api.telegram.org/bot7687550929:AAEBNhw-76nKtpKYJ71Z6VV5eGOVsuZ4iBc/sendMessage?chat_id=-1002370415846&text={message}"
+    url = f"https://api.telegram.org/bot7687550929:AAEBNhw-76nKtpKYJ71Z6VV5eGOVsuZ4iBc/sendMessage?chat_id=6601930239&text={message}"
     requests.get(url)
 
 @app.before_request
