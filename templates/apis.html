@@ -69,13 +69,13 @@
         .category:hover {
             transform: translateY(-2px);
         }
+        .category.active::before {
+            transform: rotate(90deg);
+        }
         .category::before {
             content: '▶';
             margin-right: 0.75rem;
             transition: transform 0.3s ease;
-        }
-        .category.active::before {
-            transform: rotate(90deg);
         }
         .api-group {
             display: none;
@@ -90,7 +90,7 @@
             background: #ffffff;
             border-radius: 0.75rem;
             padding: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 con 4px 12px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .api-card:hover {
@@ -165,7 +165,7 @@
                 <p><strong>Description:</strong> Download Image, Video TikTok</p>
                 <p><strong>Params:</strong> apikey, url</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/tiktok_download" target="_ Historic Response: blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/tiktok_download" target="_blank" class="get-btn">GET</a>
             </div>
             <div class="api-card">
                 <h3>Lấy Bài Đăng TikTok</h3>
@@ -173,7 +173,7 @@
                 <p><strong>Description:</strong> Get TikTok User Posts</p>
                 <p><strong>Params:</strong> apikey, unique_id</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/get_posts" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/get_posts" target="_blank" class="get-btn">GET</a>
             </div>
             <div class="api-card">
                 <h3>Tìm Kiếm TikTok</h3>
@@ -181,7 +181,7 @@
                 <p><strong>Description:</strong> Search TikTok Content</p>
                 <p><strong>Params:</strong> apikey, keywords</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/search" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/search" target="_blank" class="get-btn">GET</a>
             </div>
         </div>
         <div class="category" onclick="toggleCategory(this, 'zingmp3')">ZingMP3</div>
@@ -192,7 +192,7 @@
                 <p><strong>Description:</strong> Search Music From ZingMP3</p>
                 <p><strong>Params:</strong> apikey, keyword</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/zingmp3_search" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/zingmp3_search" target="_blank" class="get-btn">GET</a>
             </div>
             <div class="api-card">
                 <h3>Tải Xuống Nhạc ZingMP3</h3>
@@ -200,7 +200,7 @@
                 <p><strong>Description:</strong> Download Music From ZingMP3</p>
                 <p><strong>Params:</strong> apikey, song_id</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/zingmp3_download" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/zingmp3_download" target="_blank" class="get-btn">GET</a>
             </div>
             <div class="api-card">
                 <h3>Lấy Lời Bài Hát ZingMP3</h3>
@@ -208,7 +208,7 @@
                 <p><strong>Description:</strong> Get Lyric Music ZingMP3</p>
                 <p><strong>Params:</strong> apikey, song_id</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/zingmp3_get_lyric" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/zingmp3_get_lyric" target="_blank" class="get-btn">GET</a>
             </div>
         </div>
         <div class="category" onclick="toggleCategory(this, 'game')">Game</div>
@@ -219,7 +219,7 @@
                 <p><strong>Description:</strong> Check Ban Account Free Fire</p>
                 <p><strong>Params:</strong> apikey, uid</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/check_ban" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/check_ban" target="_blank" class="get-btn">GET</a>
             </div>
         </div>
         <div class="category" onclick="toggleCategory(this, 'media')">Media</div>
@@ -230,7 +230,7 @@
                 <p><strong>Description:</strong> Random Video Girl</p>
                 <p><strong>Params:</strong> apikey</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/random_girl_video" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/random_girl_video" target="_blank" class="get-btn">GET</a>
             </div>
             <div class="api-card">
                 <h3>Ảnh Gái Ngẫu Nhiên</h3>
@@ -238,7 +238,7 @@
                 <p><strong>Description:</strong> Random Image Girl</p>
                 <p><strong>Params:</strong> apikey</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/random_girl_image" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/random_girl_image" target="_blank" class="get-btn">GET</a>
             </div>
         </div>
         <div class="category" onclick="toggleCategory(this, 'tool')">Tool</div>
@@ -249,7 +249,7 @@
                 <p><strong>Description:</strong> Screenshot Website</p>
                 <p><strong>Params:</strong> apikey, url</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/screenshot" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/screenshot" target="_blank" class="get-btn">GET</a>
             </div>
             <div class="api-card">
                 <h3>Chuyển Văn Bản Thành Giọng Nói</h3>
@@ -257,7 +257,7 @@
                 <p><strong>Description:</strong> Text To Audio</p>
                 <p><strong>Params:</strong> apikey, text</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/text_to_audio" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/text_to_audio" target="_blank" class="get-btn">GET</a>
             </div>
         </div>
         <div class="category" onclick="toggleCategory(this, 'ai')">AI</div>
@@ -268,16 +268,20 @@
                 <p><strong>Description:</strong> Chat Gemini</p>
                 <p><strong>Params:</strong> apikey, ask, prompt (optional)</p>
                 <p><strong>Status:</strong> <span class="status">Active</span></p>
-                <a href="https://api-kiendev.vercel.app/chat_gemini" target="_blank" class="get-btn">GET</a>
+                <a href="{{ domain }}/chat_gemini" target="_blank" class="get-btn">GET</a>
             </div>
         </div>
     </div>
     <script>
         function toggleCategory(element, groupId) {
-            const group = document.getElementById(groupId);
-            const isActive = group.classList.contains('active');
-            document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
-            document.querySelectorAll('.api-group').forEach(grp => grp.classList.remove('active'));
+            var group = document.getElementById(groupId);
+            var isActive = group.classList.contains('active');
+            document.querySelectorAll('.category').forEach(function(cat) {
+                cat.classList.remove('active');
+            });
+            document.querySelectorAll('.api-group').forEach(function(grp) {
+                grp.classList.remove('active');
+            });
             if (!isActive) {
                 element.classList.add('active');
                 group.classList.add('active');
