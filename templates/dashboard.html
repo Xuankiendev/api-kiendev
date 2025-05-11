@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>API Dashboard</h1>
+        <div class="stats">
+            <div class="stat-box">
+                <h2>Tổng Requests</h2>
+                <p>{{ total_requests }}</p>
+            </div>
+            <div class="stat-box">
+                <h2>Unique IPs</h2>
+                <p>{{ unique_ips }}</p>
+            </div>
+        </div>
+        <h2>API Usage</h2>
+        <table>
+            <thead>
+                <tr><th>Endpoint</th><th>Request Count</th></tr>
+            </thead>
+            <tbody>
+                {% for endpoint, count in endpoint_counts.items() %}
+                <tr><td>{{ endpoint }}</td><td>{{ count }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Request Logs</h2>
+        <table>
+            <thead>
+                <tr><th>Time</th><th>IP</th><th>Endpoint</th><th>Method</th><th>User-Agent</th><th>Query</th><th>Body</th></tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.time }}</td>
+                    <td>{{ log.ip }}</td>
+                    <td>{{ log.endpoint }}</td>
+                    <td>{{ log.method }}</td>
+                    <td>{{ log.user_agent }}</td>
+                    <td>{{ log.query }}</td>
+                    <td>{{ log.body }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
