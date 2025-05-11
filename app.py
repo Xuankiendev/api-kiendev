@@ -36,7 +36,7 @@ def log_request():
         'endpoint': endpoint, 'method': method, 'ip': ip,
         'user_agent': user_agent, 'query': query, 'body': body, 'time': request_time
     })
-    message = f"📊 New Request API 📊\n🔗 Link API: https://api-kiendev.vercel.app\n🧪 Endpoint: {endpoint}\n📌 Method: {method}\n🔢 IP: {ip}\n👤 User-Agent: {user_agent}\n📝 Query: {query}\n🏃 Body: {body}\n🧭 Time: {request_time}"
+    message = f"📊 New Request API 📊\n🔗 Link API: {request.host_url}\n🧪 Endpoint: {endpoint}\n📌 Method: {method}\n🔢 IP: {ip}\n👤 User-Agent: {user_agent}\n📝 Query: {query}\n🏃 Body: {body}\n🧭 Time: {request_time}"
     if len(message) > 4000:
         message = message[:3990] + "\n...(cắt bớt)"
     send_telegram_message(message)
@@ -49,11 +49,11 @@ def dashboard():
     endpoint_counts = {}
     for log in request_logs:
         endpoint_counts[log['endpoint']] = endpoint_counts.get(log['endpoint'], 0) + 1
-    return render_template('dashboard.html', total_requests=total_requests, unique_ips=unique_ips, endpoint_counts=endpoint_counts, logs=request_logs)
+    return render_template('dashboard.html', total_requests=total_requests, unique_ips=unique_ips, endpoint_counts=endpoint_counts, logs=request_logs, domain=request.host_url.rstrip('/'))
 
 @app.route('/apis')
 def apis():
-    return render_template('apis.html')
+    return render_template('apis.html', domain=request.host_url.rstrip('/'))
 
 if __name__ == '__main__':
     app.run(debug=True)
